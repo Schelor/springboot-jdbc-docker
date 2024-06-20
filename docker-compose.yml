@@ -1,0 +1,31 @@
+services:
+  springboot-jdbc:
+    image: springboot-jdbc:latest
+    container_name: springboot-jdbc-java-container
+    ports:
+      - "8080:8080"
+    networks:
+      - java-docker
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:latest
+    container_name: mysql-container
+    networks:
+      - java-docker
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=springboot
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+## 网络连接
+networks:
+  java-docker:
+
+## 创建or使用数据卷
+volumes:
+  mysql-data:
